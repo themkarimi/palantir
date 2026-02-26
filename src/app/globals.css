@@ -2,26 +2,89 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: dark;
+  }
+
+  html {
+    @apply bg-background;
+  }
+
+  html.light {
+    color-scheme: light;
+    --tw-bg-background: theme('colors.slate.50');
+    background-color: rgb(248 250 252) !important;
+  }
+
+  body {
+    @apply bg-background text-white min-h-screen font-sans;
+    background-image: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.05) 1px,
+      transparent 1px
+    );
+    background-size: 24px 24px;
+  }
+
+  html.light body {
+    @apply bg-slate-50 text-slate-900;
+    background-image: radial-gradient(
+      circle,
+      rgba(0, 0, 0, 0.05) 1px,
+      transparent 1px
+    );
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-white/10 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-white/20;
+  }
+
+  html.light ::-webkit-scrollbar-thumb {
+    @apply bg-black/10;
+  }
+  html.light ::-webkit-scrollbar-thumb:hover {
+    @apply bg-black/20;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
+@layer components {
+  .glass-card {
+    @apply bg-surface border border-border backdrop-blur-sm rounded-xl;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  html.light .glass-card {
+    @apply bg-white/80 border-slate-200;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .accent-text {
+    @apply text-accent;
+  }
+
+  html.light .accent-text {
+    color: #0099b5;
+  }
+
+  /* Input/select base style */
+  .input-base {
+    @apply glass-card px-3 py-2 text-sm outline-none transition-all duration-200
+      placeholder:text-white/30 focus:border-accent/50 focus:shadow-glow-sm;
+  }
+
+  html.light .input-base {
+    @apply text-slate-900 placeholder:text-slate-400 focus:border-cyan-500/50;
   }
 }
