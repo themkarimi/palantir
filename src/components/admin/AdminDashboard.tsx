@@ -2,22 +2,41 @@
 
 import { useState } from 'react'
 import type { App } from '@/types/app'
+import type { Group } from '@/types/user'
 import { AppForm } from './AppForm'
 import { AdminAppList } from './AdminAppList'
 import { BulkImport } from './BulkImport'
 import { ExportButton } from './ExportButton'
+import { UsersGroupsPanel } from './UsersGroupsPanel'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/components/providers/ToastProvider'
 import { Modal } from '@/components/ui/Modal'
 import { cn } from '@/lib/cn'
 
-interface AdminDashboardProps {
-  initialApps: App[]
+interface SafeUser {
+  id: string
+  email: string
+  groups: string[]
+  createdAt: string
 }
 
-type Tab = 'apps' | 'import'
+interface AdminDashboardProps {
+  initialApps: App[]
+  initialUsers: SafeUser[]
+  initialGroups: Group[]
+  oidcEnabled: boolean
+  oidcAdminGroup: string | null
+}
 
-export function AdminDashboard({ initialApps }: AdminDashboardProps) {
+type Tab = 'apps' | 'import' | 'users-groups'
+
+export function AdminDashboard({
+  initialApps,
+  initialUsers,
+  initialGroups,
+  oidcEnabled,
+  oidcAdminGroup,
+}: AdminDashboardProps) {
   const [apps, setApps] = useState<App[]>(initialApps)
   const [editingApp, setEditingApp] = useState<App | null>(null)
   const [showAddForm, setShowAddForm] = useState(false)
@@ -117,7 +136,7 @@ export function AdminDashboard({ initialApps }: AdminDashboardProps) {
 
       {/* Tabs */}
       <div className="flex gap-1 mb-6 border-b border-border">
-        {(['apps', 'import'] as Tab[]).map((tab) => (
+        {(['apps', 'import', 'users-groups'] as Tab[]).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -128,7 +147,11 @@ export function AdminDashboard({ initialApps }: AdminDashboardProps) {
                 : 'border-transparent text-white/40 hover:text-white/70'
             )}
           >
-            {tab === 'apps' ? `Apps (${apps.length})` : 'Bulk Import'}
+            {tab === 'apps'
+              ? `Apps (${apps.length})`
+              : tab === 'import'
+              ? 'Bulk Import'
+              : 'Users & Groups'}
           </button>
         ))}
       </div>
@@ -147,6 +170,15 @@ export function AdminDashboard({ initialApps }: AdminDashboardProps) {
 
       {activeTab === 'import' && (
         <BulkImport onImportDone={handleImportDone} />
+      )}
+
+      {activeTab === 'users-groups' && (
+        <UsersGroupsPanel
+          initialUsers={initialUsers}
+          initialGroups={initialGroups}
+          oidcEnabled={oidcEnabled}
+          oidcAdminGroup={oidcAdminGroup}
+        />
       )}
 
       {/* Add / Edit modal */}
