@@ -10,6 +10,8 @@ import {
 } from '@/lib/oidc'
 import { signToken } from '@/lib/auth'
 
+const SESSION_DURATION_SECONDS = 8 * 60 * 60
+
 export async function GET(request: Request) {
   if (!isOidcEnabled()) {
     return NextResponse.json({ error: 'OIDC is not configured' }, { status: 404 })
@@ -71,7 +73,7 @@ export async function GET(request: Request) {
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
       path: '/',
-      maxAge: 60 * 60 * 8, // 8 hours
+      maxAge: SESSION_DURATION_SECONDS,
     })
 
     return NextResponse.redirect(new URL(returnTo, request.url))

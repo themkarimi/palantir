@@ -1,4 +1,5 @@
 import React from 'react'
+import { DEFAULT_ACCENT_COLOR } from '@/types/app'
 
 interface LogoProps {
   className?: string
@@ -29,9 +30,9 @@ export function Logo({ className = '', iconOnly = false, size = 28 }: LogoProps)
       fill="none"
     >
       {/* ── Orb icon ── */}
-      <circle cx={cx} cy={cy} r={rOuter} stroke="#00e5ff" strokeWidth={size * 0.054} />
-      <circle cx={cx} cy={cy} r={rMid} stroke="#00e5ff" strokeWidth={size * 0.036} strokeOpacity="0.4" />
-      <circle cx={cx} cy={cy} r={rDot} fill="#00e5ff" />
+      <circle cx={cx} cy={cy} r={rOuter} stroke={DEFAULT_ACCENT_COLOR} strokeWidth={size * 0.054} />
+      <circle cx={cx} cy={cy} r={rMid} stroke={DEFAULT_ACCENT_COLOR} strokeWidth={size * 0.036} strokeOpacity="0.4" />
+      <circle cx={cx} cy={cy} r={rDot} fill={DEFAULT_ACCENT_COLOR} />
 
       {/* ── Wordmark ── */}
       {!iconOnly && (

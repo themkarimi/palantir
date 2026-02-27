@@ -29,10 +29,14 @@ export async function readApps(): Promise<App[]> {
  * Atomic write: write to .tmp then rename to prevent corruption
  * on concurrent requests or process crash mid-write.
  */
+async function writeFileAtomic(filePath: string, content: string): Promise<void> {
+  const tmp = filePath + '.tmp'
+  await fs.writeFile(tmp, content, 'utf-8')
+  await fs.rename(tmp, filePath)
+}
+
 export async function writeApps(apps: App[]): Promise<void> {
-  const tmp = DATA_PATH + '.tmp'
-  await fs.writeFile(tmp, JSON.stringify(apps, null, 2), 'utf-8')
-  await fs.rename(tmp, DATA_PATH)
+  await writeFileAtomic(DATA_PATH, JSON.stringify(apps, null, 2))
 }
 
 export async function readUsersData(): Promise<UsersData> {
@@ -45,7 +49,5 @@ export async function readUsersData(): Promise<UsersData> {
 }
 
 export async function writeUsersData(data: UsersData): Promise<void> {
-  const tmp = USERS_PATH + '.tmp'
-  await fs.writeFile(tmp, JSON.stringify(data, null, 2), 'utf-8')
-  await fs.rename(tmp, USERS_PATH)
+  await writeFileAtomic(USERS_PATH, JSON.stringify(data, null, 2))
 }

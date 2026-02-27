@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import type { App, AppCreateInput } from '@/types/app'
-import { CATEGORIES } from '@/types/app'
+import { CATEGORIES, DEFAULT_ACCENT_COLOR } from '@/types/app'
 import { AppCard } from '@/components/catalog/AppCard'
 import { cn } from '@/lib/cn'
 
@@ -19,7 +19,7 @@ const DEFAULT_FORM: AppCreateInput = {
   category: 'CI/CD',
   iconSlug: '',
   customLogoUrl: null,
-  accentColor: '#00e5ff',
+  accentColor: DEFAULT_ACCENT_COLOR,
   healthCheckUrl: null,
   teams: [],
 }
@@ -242,7 +242,7 @@ export function AppForm({ initialData, onSave, onCancel }: AppFormProps) {
                 value={form.accentColor}
                 onChange={(e) => update('accentColor', e.target.value)}
                 className="input-base flex-1 font-mono"
-                placeholder="#00e5ff"
+                placeholder={DEFAULT_ACCENT_COLOR}
               />
             </div>
           </div>

@@ -4,6 +4,8 @@ import { useEffect } from 'react'
 import { useStatusStore } from '@/store/useStatusStore'
 import type { App } from '@/types/app'
 
+const PING_TIMEOUT_MS = 5000
+
 /**
  * Pings all app URLs on component mount using a HEAD request with no-cors mode.
  *
@@ -23,7 +25,7 @@ export function useStatusPing(apps: App[]) {
         apps.map(async (app) => {
           const url = app.healthCheckUrl ?? app.url
           const ctrl = new AbortController()
-          const timeout = setTimeout(() => ctrl.abort(), 5000)
+          const timeout = setTimeout(() => ctrl.abort(), PING_TIMEOUT_MS)
 
           try {
             await fetch(url, {

@@ -1,10 +1,14 @@
 import Papa from 'papaparse'
 import type { App } from '@/types/app'
-import { CATEGORIES } from '@/types/app'
+import { CATEGORIES, DEFAULT_ACCENT_COLOR } from '@/types/app'
 
 type AppImportRow = Omit<App, 'id' | 'order' | 'createdAt'>
 
 const REQUIRED_CSV_HEADERS = ['name', 'url']
+
+function normalizeCategoryName(name: string): string {
+  return name.toLowerCase().replace(/[^a-z]/g, '')
+}
 
 export function parseCSVToApps(csvText: string): AppImportRow[] {
   const result = Papa.parse<Record<string, string>>(csvText.trim(), {
@@ -29,11 +33,11 @@ export function parseCSVToApps(csvText: string): AppImportRow[] {
     description: row.description?.trim() ?? '',
     category:
       CATEGORIES.find(
-        (c) => c.toLowerCase().replace(/[^a-z]/g, '') === row.category?.toLowerCase().replace(/[^a-z]/g, '')
+        (c) => normalizeCategoryName(c) === normalizeCategoryName(row.category ?? '')
       ) ?? 'CI/CD',
     iconSlug: row.iconslug?.trim() ?? '',
     customLogoUrl: row.customlogourl?.trim() || null,
-    accentColor: row.accentcolor?.trim() || '#00e5ff',
+    accentColor: row.accentcolor?.trim() || DEFAULT_ACCENT_COLOR,
     healthCheckUrl: row.healthcheckurl?.trim() || null,
     teams: row.teams
       ? row.teams.split(',').map((t: string) => t.trim()).filter(Boolean)
@@ -53,7 +57,7 @@ export function parseJSONToApps(jsonText: string): AppImportRow[] {
       CATEGORIES.find((c) => c === item.category) ?? 'CI/CD',
     iconSlug: String(item.iconSlug ?? item.iconslug ?? '').trim(),
     customLogoUrl: item.customLogoUrl ? String(item.customLogoUrl) : null,
-    accentColor: String(item.accentColor ?? item.accentcolor ?? '#00e5ff').trim(),
+    accentColor: String(item.accentColor ?? item.accentcolor ?? DEFAULT_ACCENT_COLOR).trim(),
     healthCheckUrl: item.healthCheckUrl ? String(item.healthCheckUrl) : null,
     teams: Array.isArray(item.teams)
       ? (item.teams as unknown[]).map(String).filter(Boolean)

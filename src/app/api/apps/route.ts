@@ -4,6 +4,7 @@ import { verifyToken } from '@/lib/auth'
 import { readApps, writeApps } from '@/lib/db'
 import { v4 as uuidv4 } from 'uuid'
 import type { App, AppCreateInput } from '@/types/app'
+import { DEFAULT_ACCENT_COLOR } from '@/types/app'
 
 export async function GET() {
   try {
@@ -43,7 +44,7 @@ export async function POST(request: Request) {
       category: body.category,
       iconSlug: body.iconSlug ?? '',
       customLogoUrl: body.customLogoUrl ?? null,
-      accentColor: body.accentColor ?? '#00e5ff',
+      accentColor: body.accentColor ?? DEFAULT_ACCENT_COLOR,
       healthCheckUrl: body.healthCheckUrl ?? null,
       teams: Array.isArray(body.teams)
         ? body.teams.filter((t) => typeof t === 'string' && t.trim() !== '').map((t) => t.trim())
