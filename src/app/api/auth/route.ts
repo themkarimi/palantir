@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { signToken } from '@/lib/auth'
+import { readUsersData } from '@/lib/db'
+import { verifyPassword } from '@/lib/password'
 
 export async function POST(request: Request) {
   try {
@@ -9,7 +11,20 @@ export async function POST(request: Request) {
     const validEmail = process.env.ADMIN_EMAIL ?? 'admin@example.com'
     const validPassword = process.env.ADMIN_PASSWORD ?? 'changeme'
 
-    if (email !== validEmail || password !== validPassword) {
+    let authenticated = email === validEmail && password === validPassword
+
+    // Fall back to local JSON users if env-var credentials didn't match
+    if (!authenticated) {
+      const usersData = await readUsersData()
+      const user = usersData.users.find(
+        (u) => u.email.toLowerCase() === email.toLowerCase()
+      )
+      if (user && verifyPassword(password, user.passwordHash)) {
+        authenticated = true
+      }
+    }
+
+    if (!authenticated) {
       return NextResponse.json(
         { success: false, error: 'Invalid credentials' },
         { status: 401 }
