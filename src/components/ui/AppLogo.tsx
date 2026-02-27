@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useTheme } from '@/components/providers/ThemeProvider'
+import { DEFAULT_ACCENT_COLOR } from '@/types/app'
 
 interface AppLogoProps {
   name: string
@@ -60,7 +61,7 @@ export function AppLogo({
       style={{
         width: size,
         height: size,
-        backgroundColor: accentColor ?? '#00e5ff',
+        backgroundColor: accentColor ?? DEFAULT_ACCENT_COLOR,
         fontSize: Math.round(size * 0.38),
         flexShrink: 0,
       }}

@@ -12,6 +12,8 @@ export const CATEGORIES = [
 
 export type Category = (typeof CATEGORIES)[number]
 
+export const DEFAULT_ACCENT_COLOR = '#00e5ff'
+
 export interface App {
   id: string
   name: string

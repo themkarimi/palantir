@@ -13,6 +13,7 @@ interface TokenResponse {
 }
 
 // Module-level cache for the OIDC discovery document (TTL: 1 hour)
+const OIDC_CACHE_TTL_MS = 60 * 60 * 1000
 let providerConfigCache: { config: OidcProviderConfig; expiresAt: number } | null = null
 
 export function isOidcEnabled(): boolean {
@@ -36,7 +37,7 @@ export async function getProviderConfig(): Promise<OidcProviderConfig> {
     throw new Error(`OIDC discovery failed for ${url}: ${res.status}`)
   }
   const config = (await res.json()) as OidcProviderConfig
-  providerConfigCache = { config, expiresAt: now + 3600 * 1000 }
+  providerConfigCache = { config, expiresAt: now + OIDC_CACHE_TTL_MS }
   return config
 }
 
