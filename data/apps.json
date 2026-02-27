@@ -10,7 +10,8 @@
     "accentColor": "#e24329",
     "healthCheckUrl": null,
     "order": 0,
-    "createdAt": "2024-01-01T00:00:00Z"
+    "createdAt": "2024-01-01T00:00:00Z",
+    "teams": []
   },
   {
     "id": "a1b2c3d4-0001-0000-0000-000000000002",
@@ -23,7 +24,8 @@
     "accentColor": "#f46800",
     "healthCheckUrl": null,
     "order": 1,
-    "createdAt": "2024-01-01T00:00:00Z"
+    "createdAt": "2024-01-01T00:00:00Z",
+    "teams": []
   },
   {
     "id": "a1b2c3d4-0001-0000-0000-000000000003",
@@ -36,7 +38,8 @@
     "accentColor": "#e6522c",
     "healthCheckUrl": null,
     "order": 2,
-    "createdAt": "2024-01-01T00:00:00Z"
+    "createdAt": "2024-01-01T00:00:00Z",
+    "teams": []
   },
   {
     "id": "a1b2c3d4-0001-0000-0000-000000000004",
@@ -49,7 +52,8 @@
     "accentColor": "#dc382d",
     "healthCheckUrl": null,
     "order": 3,
-    "createdAt": "2024-01-01T00:00:00Z"
+    "createdAt": "2024-01-01T00:00:00Z",
+    "teams": []
   },
   {
     "id": "a1b2c3d4-0001-0000-0000-000000000005",
@@ -62,7 +66,8 @@
     "accentColor": "#ffffff",
     "healthCheckUrl": null,
     "order": 4,
-    "createdAt": "2024-01-01T00:00:00Z"
+    "createdAt": "2024-01-01T00:00:00Z",
+    "teams": []
   },
   {
     "id": "a1b2c3d4-0001-0000-0000-000000000006",
@@ -75,7 +80,8 @@
     "accentColor": "#ffcd00",
     "healthCheckUrl": null,
     "order": 5,
-    "createdAt": "2024-01-01T00:00:00Z"
+    "createdAt": "2024-01-01T00:00:00Z",
+    "teams": []
   },
   {
     "id": "a1b2c3d4-0001-0000-0000-000000000007",
@@ -88,7 +94,8 @@
     "accentColor": "#ef7b4d",
     "healthCheckUrl": null,
     "order": 6,
-    "createdAt": "2024-01-01T00:00:00Z"
+    "createdAt": "2024-01-01T00:00:00Z",
+    "teams": []
   },
   {
     "id": "a1b2c3d4-0001-0000-0000-000000000008",
@@ -101,7 +108,8 @@
     "accentColor": "#00bfb3",
     "healthCheckUrl": null,
     "order": 7,
-    "createdAt": "2024-01-01T00:00:00Z"
+    "createdAt": "2024-01-01T00:00:00Z",
+    "teams": []
   },
   {
     "id": "a1b2c3d4-0001-0000-0000-000000000009",
@@ -114,7 +122,8 @@
     "accentColor": "#60d0e4",
     "healthCheckUrl": null,
     "order": 8,
-    "createdAt": "2024-01-01T00:00:00Z"
+    "createdAt": "2024-01-01T00:00:00Z",
+    "teams": []
   },
   {
     "id": "a1b2c3d4-0001-0000-0000-000000000010",
@@ -127,7 +136,8 @@
     "accentColor": "#c72e49",
     "healthCheckUrl": null,
     "order": 9,
-    "createdAt": "2024-01-01T00:00:00Z"
+    "createdAt": "2024-01-01T00:00:00Z",
+    "teams": []
   },
   {
     "id": "a1b2c3d4-0001-0000-0000-000000000011",
@@ -140,7 +150,8 @@
     "accentColor": "#4e9bcd",
     "healthCheckUrl": null,
     "order": 10,
-    "createdAt": "2024-01-01T00:00:00Z"
+    "createdAt": "2024-01-01T00:00:00Z",
+    "teams": []
   },
   {
     "id": "a1b2c3d4-0001-0000-0000-000000000012",
@@ -153,6 +164,7 @@
     "accentColor": "#60b932",
     "healthCheckUrl": null,
     "order": 11,
-    "createdAt": "2024-01-01T00:00:00Z"
+    "createdAt": "2024-01-01T00:00:00Z",
+    "teams": []
   }
 ]

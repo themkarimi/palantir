@@ -22,6 +22,8 @@ export interface App {
   customLogoUrl: string | null
   accentColor: string
   healthCheckUrl: string | null
+  /** Team/group names that can see this app. Empty array means visible to everyone. */
+  teams: string[]
   order: number
   createdAt: string
 }

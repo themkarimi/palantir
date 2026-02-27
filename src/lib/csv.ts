@@ -35,6 +35,9 @@ export function parseCSVToApps(csvText: string): AppImportRow[] {
     customLogoUrl: row.customlogourl?.trim() || null,
     accentColor: row.accentcolor?.trim() || '#00e5ff',
     healthCheckUrl: row.healthcheckurl?.trim() || null,
+    teams: row.teams
+      ? row.teams.split(',').map((t: string) => t.trim()).filter(Boolean)
+      : [],
   }))
 }
 
@@ -52,5 +55,8 @@ export function parseJSONToApps(jsonText: string): AppImportRow[] {
     customLogoUrl: item.customLogoUrl ? String(item.customLogoUrl) : null,
     accentColor: String(item.accentColor ?? item.accentcolor ?? '#00e5ff').trim(),
     healthCheckUrl: item.healthCheckUrl ? String(item.healthCheckUrl) : null,
+    teams: Array.isArray(item.teams)
+      ? (item.teams as unknown[]).map(String).filter(Boolean)
+      : [],
   }))
 }

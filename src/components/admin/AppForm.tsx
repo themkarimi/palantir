@@ -21,6 +21,7 @@ const DEFAULT_FORM: AppCreateInput = {
   customLogoUrl: null,
   accentColor: '#00e5ff',
   healthCheckUrl: null,
+  teams: [],
 }
 
 // Map common app names → Simple Icons slugs for auto-suggest
@@ -77,13 +78,14 @@ export function AppForm({ initialData, onSave, onCancel }: AppFormProps) {
           customLogoUrl: initialData.customLogoUrl,
           accentColor: initialData.accentColor,
           healthCheckUrl: initialData.healthCheckUrl,
+          teams: initialData.teams ?? [],
         }
       : DEFAULT_FORM
   )
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
-  const update = (field: keyof AppCreateInput, value: string | null) =>
+  const update = (field: keyof AppCreateInput, value: string | string[] | null) =>
     setForm((prev) => ({ ...prev, [field]: value }))
 
   const handleNameChange = (name: string) => {
@@ -140,6 +142,7 @@ export function AppForm({ initialData, onSave, onCancel }: AppFormProps) {
     customLogoUrl: form.customLogoUrl,
     accentColor: form.accentColor,
     healthCheckUrl: form.healthCheckUrl,
+    teams: form.teams ?? [],
     order: 0,
     createdAt: new Date().toISOString(),
   }
@@ -266,6 +269,26 @@ export function AppForm({ initialData, onSave, onCancel }: AppFormProps) {
             onChange={(e) => update('healthCheckUrl', e.target.value || null)}
             className="input-base w-full"
             placeholder="https://service.internal.company.com/health"
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-mono text-white/50 mb-1.5">
+            Team Visibility <span className="text-white/25">(comma-separated; leave empty for everyone)</span>
+          </label>
+          <input
+            value={(form.teams ?? []).join(', ')}
+            onChange={(e) =>
+              update(
+                'teams',
+                e.target.value
+                  .split(',')
+                  .map((t) => t.trim())
+                  .filter(Boolean)
+              )
+            }
+            className="input-base w-full"
+            placeholder="platform-team, backend-team"
           />
         </div>
 

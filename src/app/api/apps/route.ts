@@ -45,6 +45,9 @@ export async function POST(request: Request) {
       customLogoUrl: body.customLogoUrl ?? null,
       accentColor: body.accentColor ?? '#00e5ff',
       healthCheckUrl: body.healthCheckUrl ?? null,
+      teams: Array.isArray(body.teams)
+        ? body.teams.filter((t) => typeof t === 'string' && t.trim() !== '').map((t) => t.trim())
+        : [],
       order: maxOrder + 1,
       createdAt: new Date().toISOString(),
     }
