@@ -57,7 +57,7 @@ export async function GET(request: Request) {
     const email = String(
       claims['email'] ?? claims['preferred_username'] ?? claims['sub']
     )
-    const sessionToken = await signToken({ email, role: 'admin', sub: String(claims['sub']) })
+    const sessionToken = await signToken({ email, role: 'admin', sub: String(claims['sub']), groups })
 
     cookieStore.set('palantir_token', sessionToken, {
       httpOnly: true,
