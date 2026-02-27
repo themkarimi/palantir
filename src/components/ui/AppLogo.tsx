@@ -23,7 +23,7 @@ export function AppLogo({
   const [error, setError] = useState(false)
   const { theme } = useTheme()
 
-  const src = customLogoUrl || (iconSlug ? `https://cdn.simpleicons.org/${iconSlug}` : null)
+  const src = customLogoUrl || (iconSlug ? `/api/icons/${iconSlug}` : null)
 
   const initials = name
     .split(/[\s-_]+/)
