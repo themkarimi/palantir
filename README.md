@@ -145,6 +145,83 @@ Apps can be restricted to specific groups. Set the `teams` field on an app (via 
 - Leading slashes are stripped automatically, so `/platform-team` and `platform-team` are treated as the same group.
 - Local users (created via the admin panel) can also be assigned to groups, which are matched against the `teams` field in the same way.
 
+## Deploying with Helm
+
+A Helm chart is provided in the `helm/palantir/` directory.
+
+### Quick start
+
+```bash
+# Install with default values (not suitable for production — change credentials!)
+helm install palantir ./helm/palantir \
+  --set env.adminEmail=admin@example.com \
+  --set env.adminPassword=changeme \
+  --set env.jwtSecret=$(openssl rand -base64 32)
+```
+
+### Production install
+
+```bash
+# Generate a strong JWT secret first
+JWT_SECRET=$(openssl rand -base64 32)
+
+# Create a values override file
+cat > my-values.yaml <<EOF
+image:
+  repository: ghcr.io/themkarimi/palantir
+  tag: "0.1.0"
+
+env:
+  adminEmail: "admin@example.com"
+  adminPassword: "your-secure-password"
+  jwtSecret: "${JWT_SECRET}"
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: palantir.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: palantir-tls
+      hosts:
+        - palantir.example.com
+EOF
+
+helm install palantir ./helm/palantir -f my-values.yaml
+```
+
+### OIDC / SSO
+
+```yaml
+env:
+  oidc:
+    issuer: "https://keycloak.example.com/realms/my-realm"
+    clientId: "palantir"
+    clientSecret: "your-client-secret"
+    redirectUri: "https://palantir.example.com/api/auth/oidc/callback"
+    adminGroup: "palantir-admins"   # optional
+```
+
+### Key values
+
+| Value | Description | Default |
+|-------|-------------|---------|
+| `image.repository` | Container image repository | `ghcr.io/themkarimi/palantir` |
+| `image.tag` | Image tag (defaults to chart appVersion) | `""` |
+| `env.adminEmail` | Admin login email | `admin@example.com` |
+| `env.adminPassword` | Admin login password (stored in Secret) | `changeme` |
+| `env.jwtSecret` | JWT signing secret, min 32 chars (stored in Secret) | random |
+| `env.dataFilePath` | Path to apps JSON file inside the container | `/app/data/apps.json` |
+| `env.oidc.*` | OIDC configuration (all optional) | `""` |
+| `existingSecret` | Name of a pre-created Secret with `ADMIN_PASSWORD`, `JWT_SECRET` | `""` |
+| `persistence.enabled` | Enable persistent storage for `apps.json` | `true` |
+| `persistence.size` | PVC size | `1Gi` |
+| `ingress.enabled` | Create an Ingress resource | `false` |
+| `autoscaling.enabled` | Enable HorizontalPodAutoscaler | `false` |
+
 ## Deploying with Docker
 
 ```bash

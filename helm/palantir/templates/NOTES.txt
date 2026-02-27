@@ -1,0 +1,39 @@
+1. Palantir has been deployed successfully!
+
+{{- if .Values.ingress.enabled }}
+{{- range $host := .Values.ingress.hosts }}
+  {{- range .paths }}
+  Access the dashboard at:
+  {{- if $.Values.ingress.tls }}
+  https://{{ $host.host }}{{ .path }}
+  {{- else }}
+  http://{{ $host.host }}{{ .path }}
+  {{- end }}
+  {{- end }}
+{{- end }}
+{{- else if contains "NodePort" .Values.service.type }}
+  Get the application URL by running these commands:
+  export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "palantir.fullname" . }})
+  export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo "Palantir URL: http://$NODE_IP:$NODE_PORT"
+{{- else if contains "LoadBalancer" .Values.service.type }}
+  It may take a few minutes for the LoadBalancer IP to be available.
+  Watch its status with:
+  kubectl get --namespace {{ .Release.Namespace }} svc -w {{ include "palantir.fullname" . }}
+{{- else }}
+  Access Palantir via port-forward:
+  kubectl --namespace {{ .Release.Namespace }} port-forward svc/{{ include "palantir.fullname" . }} 3000:{{ .Values.service.port }}
+  Then open: http://127.0.0.1:3000
+{{- end }}
+
+Admin panel: <URL>/admin
+Default credentials (change these!):
+  Email:    {{ .Values.env.adminEmail }}
+  Password: stored in secret {{ include "palantir.secretName" . }}
+
+{{- if not .Values.env.jwtSecret }}
+
+WARNING: No jwtSecret was provided. A random secret has been generated for this
+release, but it will change on every upgrade which will invalidate all active
+sessions. Set a fixed jwtSecret in your values to avoid this.
+{{- end }}

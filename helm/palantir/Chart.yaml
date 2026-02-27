@@ -1,0 +1,15 @@
+apiVersion: v2
+name: palantir
+description: A dark, terminal-inspired internal developer platform dashboard
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - developer-portal
+  - dashboard
+  - internal-tools
+home: https://github.com/themkarimi/palantir
+sources:
+  - https://github.com/themkarimi/palantir
+maintainers:
+  - name: themkarimi
