@@ -154,9 +154,6 @@ export function LoginForm({ oidcEnabled, isAdmin = false }: LoginFormProps) {
           </button>
         </form>
 
-        <p className="text-center text-white/20 text-xs font-mono mt-4">
-          Credentials are configured via environment variables
-        </p>
       </div>
     </div>
   )
