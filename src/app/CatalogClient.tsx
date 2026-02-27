@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { useAppStore } from '@/store/useAppStore'
 import { useStatusPing } from '@/hooks/useStatusPing'
 import { Header } from '@/components/ui/Header'
+import { Logo } from '@/components/ui/Logo'
 import { SearchBar } from '@/components/catalog/SearchBar'
 import { CategoryFilter } from '@/components/catalog/CategoryFilter'
 import { AppGrid } from '@/components/catalog/AppGrid'
@@ -27,7 +28,8 @@ export function CatalogClient({ initialApps }: CatalogClientProps) {
       <Header />
       <main className="max-w-7xl mx-auto px-4 py-10 space-y-8">
         {/* Hero */}
-        <div className="text-center space-y-3 pt-4">
+        <div className="text-center space-y-3 pt-4 flex flex-col items-center">
+          <Logo size={56} iconOnly className="drop-shadow-[0_0_16px_rgba(0,229,255,0.4)]" />
           <h1 className="font-mono text-4xl font-bold tracking-tight">
             <span className="text-accent">palantir</span>
           </h1>

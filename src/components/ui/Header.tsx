@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { ThemeToggle } from './ThemeToggle'
+import { Logo } from './Logo'
 
 interface HeaderProps {
   isAdmin?: boolean
@@ -11,17 +12,8 @@ export function Header({ isAdmin = false }: HeaderProps) {
   return (
     <header className="sticky top-0 z-40 border-b border-border backdrop-blur-md bg-background/80">
       <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          {/* Palantir "eye" icon */}
-          <div className="w-7 h-7 rounded-md bg-accent/10 border border-accent/30 flex items-center justify-center group-hover:border-accent/60 transition-colors">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-accent">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
-          </div>
-          <span className="font-mono text-sm font-semibold text-white/90 group-hover:text-white transition-colors">
-            palantir
-          </span>
+        <Link href="/" className="flex items-center group">
+          <Logo size={28} className="opacity-90 group-hover:opacity-100 transition-opacity" />
         </Link>
 
         <div className="flex items-center gap-2">
@@ -48,3 +40,4 @@ export function Header({ isAdmin = false }: HeaderProps) {
     </header>
   )
 }
+
