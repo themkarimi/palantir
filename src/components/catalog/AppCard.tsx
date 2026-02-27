@@ -5,7 +5,6 @@ import { GlassCard } from '@/components/ui/GlassCard'
 import { AppLogo } from '@/components/ui/AppLogo'
 import { StatusDot } from './StatusDot'
 import { useFavoritesStore } from '@/store/useFavoritesStore'
-import { useRecentStore } from '@/store/useRecentStore'
 import { useClipboard } from '@/hooks/useClipboard'
 import type { App } from '@/types/app'
 import { cn } from '@/lib/cn'
@@ -17,12 +16,10 @@ interface AppCardProps {
 
 export function AppCard({ app, index }: AppCardProps) {
   const { toggle, isFavorite } = useFavoritesStore()
-  const { addRecent } = useRecentStore()
   const { copy } = useClipboard()
   const favorite = isFavorite(app.id)
 
   const handleOpen = () => {
-    addRecent(app.id)
     window.open(app.url, '_blank', 'noopener,noreferrer')
   }
 

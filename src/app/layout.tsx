@@ -17,8 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Palantir — Developer Platform',
-  description: 'Internal developer platform application catalog',
+  title: 'Palantir'
 }
 
 export default function RootLayout({

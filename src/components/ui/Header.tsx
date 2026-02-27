@@ -22,9 +22,6 @@ export function Header({ isAdmin = false }: HeaderProps) {
           <span className="font-mono text-sm font-semibold text-white/90 group-hover:text-white transition-colors">
             palantir
           </span>
-          <span className="hidden sm:block text-white/20 text-xs font-mono">
-            / dev platform
-          </span>
         </Link>
 
         <div className="flex items-center gap-2">

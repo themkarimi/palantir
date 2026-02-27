@@ -6,7 +6,6 @@ import { useStatusPing } from '@/hooks/useStatusPing'
 import { Header } from '@/components/ui/Header'
 import { SearchBar } from '@/components/catalog/SearchBar'
 import { CategoryFilter } from '@/components/catalog/CategoryFilter'
-import { RecentlyVisited } from '@/components/catalog/RecentlyVisited'
 import { AppGrid } from '@/components/catalog/AppGrid'
 import type { App } from '@/types/app'
 
@@ -31,12 +30,7 @@ export function CatalogClient({ initialApps }: CatalogClientProps) {
         <div className="text-center space-y-3 pt-4">
           <h1 className="font-mono text-4xl font-bold tracking-tight">
             <span className="text-accent">palantir</span>
-            <span className="text-white/20"> // </span>
-            <span className="text-white/60 text-2xl">dev platform</span>
           </h1>
-          <p className="text-white/35 font-sans text-sm max-w-md mx-auto">
-            Central hub for all internal tools and services. Click to open, star to pin, <kbd className="px-1 py-0.5 text-[10px] border border-white/15 rounded font-mono">/</kbd> to search.
-          </p>
         </div>
 
         {/* Search */}
@@ -44,9 +38,6 @@ export function CatalogClient({ initialApps }: CatalogClientProps) {
 
         {/* Filters */}
         <CategoryFilter />
-
-        {/* Recently Visited */}
-        <RecentlyVisited />
 
         {/* App Grid */}
         <AppGrid />
