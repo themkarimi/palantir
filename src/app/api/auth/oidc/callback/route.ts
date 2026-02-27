@@ -19,7 +19,13 @@ export async function GET(request: Request) {
   const code = url.searchParams.get('code')
   const state = url.searchParams.get('state')
   const error = url.searchParams.get('error')
-  const loginBase = new URL('/admin/login', request.url)
+
+  const cookieStore = await cookies()
+  const returnTo = cookieStore.get('oidc_return_to')?.value ?? '/admin'
+  cookieStore.delete('oidc_return_to')
+
+  const isAdminFlow = returnTo.startsWith('/admin')
+  const loginBase = new URL(isAdminFlow ? '/admin/login' : '/login', request.url)
 
   if (error) {
     loginBase.searchParams.set('error', error)
@@ -31,7 +37,6 @@ export async function GET(request: Request) {
     return NextResponse.redirect(loginBase)
   }
 
-  const cookieStore = await cookies()
   const storedState = cookieStore.get('oidc_state')?.value
   cookieStore.delete('oidc_state')
 
@@ -47,7 +52,8 @@ export async function GET(request: Request) {
 
     const groups = extractGroupsFromClaims(claims)
 
-    if (!isInAdminGroup(groups)) {
+    // Only enforce admin-group membership when accessing the admin area
+    if (isAdminFlow && !isInAdminGroup(groups)) {
       loginBase.searchParams.set('error', 'insufficient_permissions')
       return NextResponse.redirect(loginBase)
     }
@@ -57,7 +63,8 @@ export async function GET(request: Request) {
     const email = String(
       claims['email'] ?? claims['preferred_username'] ?? claims['sub']
     )
-    const sessionToken = await signToken({ email, role: 'admin', sub: String(claims['sub']), groups })
+    const role = isInAdminGroup(groups) ? 'admin' : 'user'
+    const sessionToken = await signToken({ email, role, sub: String(claims['sub']), groups })
 
     cookieStore.set('palantir_token', sessionToken, {
       httpOnly: true,
@@ -67,7 +74,7 @@ export async function GET(request: Request) {
       maxAge: 60 * 60 * 8, // 8 hours
     })
 
-    return NextResponse.redirect(new URL('/admin', request.url))
+    return NextResponse.redirect(new URL(returnTo, request.url))
   } catch (err) {
     console.error('OIDC callback error:', err)
     loginBase.searchParams.set('error', 'authentication_failed')

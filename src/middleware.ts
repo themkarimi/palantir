@@ -4,22 +4,26 @@ import { verifyToken } from '@/lib/auth'
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const isAdminPath = pathname.startsWith('/admin')
-  const isLoginPath = pathname === '/admin/login'
+  const isAdminLogin = pathname === '/admin/login'
+  const isCatalogLogin = pathname === '/login'
 
-  // Only protect admin routes
-  if (!isAdminPath || isLoginPath) {
+  // Allow login pages through unconditionally
+  if (isAdminLogin || isCatalogLogin) {
     return NextResponse.next()
   }
 
   const token = request.cookies.get('palantir_token')?.value
+  const loginUrl = isAdminPath
+    ? new URL('/admin/login', request.url)
+    : new URL('/login', request.url)
 
   if (!token) {
-    return NextResponse.redirect(new URL('/admin/login', request.url))
+    return NextResponse.redirect(loginUrl)
   }
 
   const payload = await verifyToken(token)
   if (!payload) {
-    const response = NextResponse.redirect(new URL('/admin/login', request.url))
+    const response = NextResponse.redirect(loginUrl)
     response.cookies.delete('palantir_token')
     return response
   }
@@ -28,5 +32,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/', '/admin/:path*'],
 }
