@@ -8,9 +8,9 @@ import type { App } from '@/types/app'
  * Pings all app URLs on component mount using a HEAD request with no-cors mode.
  *
  * Note: CORS restrictions prevent reading the response from internal services.
- * `mode: 'no-cors'` sends the request — if it resolves without error (network
- * unreachable / timeout), the service is considered online. This is a best-effort
- * reachability indicator, not a guaranteed health check.
+ * `mode: 'no-cors'` sends the request — if it resolves without error the service
+ * is considered online; any error (network unreachable, timeout, etc.) marks it
+ * offline. This is a best-effort reachability indicator, not a guaranteed health check.
  */
 export function useStatusPing(apps: App[]) {
   const setStatus = useStatusStore((s) => s.setStatus)
@@ -33,12 +33,9 @@ export function useStatusPing(apps: App[]) {
             })
             clearTimeout(timeout)
             setStatus(app.id, 'online')
-          } catch (err) {
+          } catch {
             clearTimeout(timeout)
-            const isAbort =
-              err instanceof Error &&
-              (err.name === 'AbortError' || err.message.includes('abort'))
-            setStatus(app.id, isAbort ? 'offline' : 'online')
+            setStatus(app.id, 'offline')
           }
         })
       )
